@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Executors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MusicDisk">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameDisk" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReleaseDate" Type="date" Nullable="false" />
+          <Property Name="ExecutorId" Type="int" Nullable="false" />
+          <Property Name="PublisherId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MusicDisksStyles">
+          <Key>
+            <PropertyRef Name="StyleId" />
+            <PropertyRef Name="MusicDiskId" />
+          </Key>
+          <Property Name="StyleId" Type="int" Nullable="false" />
+          <Property Name="MusicDiskId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Publishers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NamePublisher" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Country" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Songs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameSong" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
+          <Property Name="MusicDiskId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Styles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameStyle" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'music-collection-db.dbo.DisksSongs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DisksSongs">
+          <Key>
+            <PropertyRef Name="NameSong" />
+            <PropertyRef Name="Duration" />
+            <PropertyRef Name="NameDisk" />
+            <PropertyRef Name="ReleaseDate" />
+            <PropertyRef Name="NameExecutor" />
+          </Key>
+          <Property Name="NameSong" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
+          <Property Name="NameDisk" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReleaseDate" Type="date" Nullable="false" />
+          <Property Name="NameExecutor" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__MusicDisk__Execu__778AC167">
+          <End Role="Executors" Type="Self.Executors" Multiplicity="1" />
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Executors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MusicDisk">
+              <PropertyRef Name="ExecutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MusicDisk__Music__72C60C4A">
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="1" />
+          <End Role="MusicDisksStyles" Type="Self.MusicDisksStyles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicDisk">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MusicDisksStyles">
+              <PropertyRef Name="MusicDiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MusicDisk__Publi__787EE5A0">
+          <End Role="Publishers" Type="Self.Publishers" Multiplicity="1" />
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MusicDisk">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MusicDisk__Style__71D1E811">
+          <End Role="Styles" Type="Self.Styles" Multiplicity="1" />
+          <End Role="MusicDisksStyles" Type="Self.MusicDisksStyles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Styles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MusicDisksStyles">
+              <PropertyRef Name="StyleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Songs__MusicDisk__7B5B524B">
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="1" />
+          <End Role="Songs" Type="Self.Songs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicDisk">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Songs">
+              <PropertyRef Name="MusicDiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Executors" EntityType="Self.Executors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MusicDisk" EntityType="Self.MusicDisk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MusicDisksStyles" EntityType="Self.MusicDisksStyles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publishers" EntityType="Self.Publishers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Songs" EntityType="Self.Songs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Styles" EntityType="Self.Styles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DisksSongs" EntityType="Self.DisksSongs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DisksSongs].[NameSong] AS [NameSong], 
+    [DisksSongs].[Duration] AS [Duration], 
+    [DisksSongs].[NameDisk] AS [NameDisk], 
+    [DisksSongs].[ReleaseDate] AS [ReleaseDate], 
+    [DisksSongs].[NameExecutor] AS [NameExecutor]
+    FROM [dbo].[DisksSongs] AS [DisksSongs]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__MusicDisk__Execu__778AC167" Association="Self.FK__MusicDisk__Execu__778AC167">
+            <End Role="Executors" EntitySet="Executors" />
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MusicDisk__Music__72C60C4A" Association="Self.FK__MusicDisk__Music__72C60C4A">
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+            <End Role="MusicDisksStyles" EntitySet="MusicDisksStyles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MusicDisk__Publi__787EE5A0" Association="Self.FK__MusicDisk__Publi__787EE5A0">
+            <End Role="Publishers" EntitySet="Publishers" />
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MusicDisk__Style__71D1E811" Association="Self.FK__MusicDisk__Style__71D1E811">
+            <End Role="Styles" EntitySet="Styles" />
+            <End Role="MusicDisksStyles" EntitySet="MusicDisksStyles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Songs__MusicDisk__7B5B524B" Association="Self.FK__Songs__MusicDisk__7B5B524B">
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+            <End Role="Songs" EntitySet="Songs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Executors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MusicDisk" Relationship="Self.FK__MusicDisk__Execu__778AC167" FromRole="Executors" ToRole="MusicDisk" />
+        </EntityType>
+        <EntityType Name="MusicDisk">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameDisk" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ExecutorId" Type="Int32" Nullable="false" />
+          <Property Name="PublisherId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Executors" Relationship="Self.FK__MusicDisk__Execu__778AC167" FromRole="MusicDisk" ToRole="Executors" />
+          <NavigationProperty Name="Publishers" Relationship="Self.FK__MusicDisk__Publi__787EE5A0" FromRole="MusicDisk" ToRole="Publishers" />
+          <NavigationProperty Name="Songs" Relationship="Self.FK__Songs__MusicDisk__7B5B524B" FromRole="MusicDisk" ToRole="Songs" />
+          <NavigationProperty Name="Styles" Relationship="Self.MusicDisksStyles" FromRole="MusicDisk" ToRole="Styles" />
+        </EntityType>
+        <EntityType Name="Publishers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamePublisher" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MusicDisk" Relationship="Self.FK__MusicDisk__Publi__787EE5A0" FromRole="Publishers" ToRole="MusicDisk" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Songs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameSong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="MusicDiskId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MusicDisk" Relationship="Self.FK__Songs__MusicDisk__7B5B524B" FromRole="Songs" ToRole="MusicDisk" />
+        </EntityType>
+        <EntityType Name="Styles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameStyle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MusicDisk" Relationship="Self.MusicDisksStyles" FromRole="Styles" ToRole="MusicDisk" />
+        </EntityType>
+        <Association Name="FK__MusicDisk__Execu__778AC167">
+          <End Role="Executors" Type="Self.Executors" Multiplicity="1" />
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Executors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MusicDisk">
+              <PropertyRef Name="ExecutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MusicDisk__Publi__787EE5A0">
+          <End Role="Publishers" Type="Self.Publishers" Multiplicity="1" />
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MusicDisk">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Songs__MusicDisk__7B5B524B">
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="1" />
+          <End Role="Songs" Type="Self.Songs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicDisk">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Songs">
+              <PropertyRef Name="MusicDiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MusicDisksStyles">
+          <End Role="MusicDisk" Type="Self.MusicDisk" Multiplicity="*" />
+          <End Role="Styles" Type="Self.Styles" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Executors" EntityType="Self.Executors" />
+          <EntitySet Name="MusicDisk" EntityType="Self.MusicDisk" />
+          <EntitySet Name="Publishers" EntityType="Self.Publishers" />
+          <EntitySet Name="Songs" EntityType="Self.Songs" />
+          <EntitySet Name="Styles" EntityType="Self.Styles" />
+          <AssociationSet Name="FK__MusicDisk__Execu__778AC167" Association="Self.FK__MusicDisk__Execu__778AC167">
+            <End Role="Executors" EntitySet="Executors" />
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MusicDisk__Publi__787EE5A0" Association="Self.FK__MusicDisk__Publi__787EE5A0">
+            <End Role="Publishers" EntitySet="Publishers" />
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Songs__MusicDisk__7B5B524B" Association="Self.FK__Songs__MusicDisk__7B5B524B">
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+            <End Role="Songs" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="MusicDisksStyles" Association="Self.MusicDisksStyles">
+            <End Role="MusicDisk" EntitySet="MusicDisk" />
+            <End Role="Styles" EntitySet="Styles" />
+          </AssociationSet>
+          <EntitySet Name="DisksSongs" EntityType="Model.DisksSongs" />
+        </EntityContainer>
+        <EntityType Name="DisksSongs">
+          <Key>
+            <PropertyRef Name="NameSong" />
+            <PropertyRef Name="Duration" />
+            <PropertyRef Name="NameDisk" />
+            <PropertyRef Name="ReleaseDate" />
+            <PropertyRef Name="NameExecutor" />
+          </Key>
+          <Property Name="NameSong" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="NameDisk" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NameExecutor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Executors">
+            <EntityTypeMapping TypeName="Model.Executors">
+              <MappingFragment StoreEntitySet="Executors">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MusicDisk">
+            <EntityTypeMapping TypeName="Model.MusicDisk">
+              <MappingFragment StoreEntitySet="MusicDisk">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NameDisk" ColumnName="NameDisk" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="ExecutorId" ColumnName="ExecutorId" />
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publishers">
+            <EntityTypeMapping TypeName="Model.Publishers">
+              <MappingFragment StoreEntitySet="Publishers">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NamePublisher" ColumnName="NamePublisher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="Model.Songs">
+              <MappingFragment StoreEntitySet="Songs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NameSong" ColumnName="NameSong" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="MusicDiskId" ColumnName="MusicDiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Styles">
+            <EntityTypeMapping TypeName="Model.Styles">
+              <MappingFragment StoreEntitySet="Styles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NameStyle" ColumnName="NameStyle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MusicDisksStyles" TypeName="Model.MusicDisksStyles" StoreEntitySet="MusicDisksStyles">
+            <EndProperty Name="MusicDisk">
+              <ScalarProperty Name="Id" ColumnName="MusicDiskId" />
+            </EndProperty>
+            <EndProperty Name="Styles">
+              <ScalarProperty Name="Id" ColumnName="StyleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="DisksSongs">
+            <EntityTypeMapping TypeName="Model.DisksSongs">
+              <MappingFragment StoreEntitySet="DisksSongs">
+                <ScalarProperty Name="NameExecutor" ColumnName="NameExecutor" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="NameDisk" ColumnName="NameDisk" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="NameSong" ColumnName="NameSong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
