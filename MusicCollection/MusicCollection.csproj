@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisksSongs.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="EFGenericRepository.cs" />
     <Compile Include="Executors.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -92,6 +95,12 @@
     <Compile Include="Publishers.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SongForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SongForm.Designer.cs">
+      <DependentUpon>SongForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Songs.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -110,6 +119,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SongForm.resx">
+      <DependentUpon>SongForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>

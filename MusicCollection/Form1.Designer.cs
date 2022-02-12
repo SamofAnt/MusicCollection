@@ -38,6 +38,8 @@
             this.MusicDisksMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StylesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.SongsCB = new System.Windows.Forms.ToolStripComboBox();
+            this.SongsForDeleteCB = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -71,6 +73,7 @@
             this.AllSongsMenuItem.Name = "AllSongsMenuItem";
             this.AllSongsMenuItem.Size = new System.Drawing.Size(204, 22);
             this.AllSongsMenuItem.Text = "Все песни";
+            this.AllSongsMenuItem.Click += new System.EventHandler(this.AllSongsMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -82,15 +85,20 @@
             this.NewSongMenuItem.Name = "NewSongMenuItem";
             this.NewSongMenuItem.Size = new System.Drawing.Size(204, 22);
             this.NewSongMenuItem.Text = "Добавить новую песню";
+            this.NewSongMenuItem.Click += new System.EventHandler(this.NewSongMenuItem_Click);
             // 
             // UpdateSongMenuItem
             // 
+            this.UpdateSongMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SongsCB});
             this.UpdateSongMenuItem.Name = "UpdateSongMenuItem";
             this.UpdateSongMenuItem.Size = new System.Drawing.Size(204, 22);
             this.UpdateSongMenuItem.Text = "Редактировать песню";
             // 
             // DeleteSongMenuItem
             // 
+            this.DeleteSongMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SongsForDeleteCB});
             this.DeleteSongMenuItem.Name = "DeleteSongMenuItem";
             this.DeleteSongMenuItem.Size = new System.Drawing.Size(204, 22);
             this.DeleteSongMenuItem.Text = "Удалить песню";
@@ -119,6 +127,18 @@
             this.dataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dataGridView.Size = new System.Drawing.Size(776, 354);
             this.dataGridView.TabIndex = 1;
+            // 
+            // SongsCB
+            // 
+            this.SongsCB.Name = "SongsCB";
+            this.SongsCB.Size = new System.Drawing.Size(121, 23);
+            this.SongsCB.SelectedIndexChanged += new System.EventHandler(this.SongsCB_SelectedIndexChanged);
+            // 
+            // SongsForDeleteCB
+            // 
+            this.SongsForDeleteCB.Name = "SongsForDeleteCB";
+            this.SongsForDeleteCB.Size = new System.Drawing.Size(121, 23);
+            this.SongsForDeleteCB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SongsForDeleteCB_KeyUp);
             // 
             // Form1
             // 
@@ -150,6 +170,8 @@
         private System.Windows.Forms.ToolStripMenuItem MusicDisksMenuItem;
         private System.Windows.Forms.ToolStripMenuItem StylesMenuItem;
         private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.ToolStripComboBox SongsCB;
+        private System.Windows.Forms.ToolStripComboBox SongsForDeleteCB;
     }
 }
 

@@ -26,8 +26,8 @@ namespace MusicCollection
 
         public void Delete(TEntity entity)
         {
-            _dbSet.Remove(entity);
-
+            _context.Entry(entity).State = EntityState.Deleted;
+            _context.SaveChanges();
         }
 
         public IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> filter) => _dbSet.AsNoTracking().Where(filter).ToList();
